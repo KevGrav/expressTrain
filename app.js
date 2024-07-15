@@ -15,12 +15,12 @@ const store = [
     }
 ]
 
-app.get('/', (request, response)=>{
-    response.json({message:"all products found", payload:store})
+app.get('/', (req, res)=>{
+    res.json({message:"all products found", payload:store})
 })
 
-app.get('/get-all-products', (request, response)=>{
-    response.json({message:"products found", payload:store.name})
+app.get('/get-all-products', (req, res)=>{
+    res.json({message:"products found", payload:store})
 
 })
 
@@ -28,23 +28,23 @@ app.get('/get-product/:productName', (req, res)=> {
     res.json({payload:req.query})
 })
 
-app.post('/create-product', (request, response)=>{
+app.post('/create-product', (req, res)=>{
     store.push({
-        name: request.body.name,
-        price: request.body.price
+        name: req.body.name,
+        price: req.body.price
     })
-    response.json({message: "Product added"})
+    res.json({message: "Product added"})
 })
 
 //5
-app.post('/create-product', (request, response)=>{
+app.post('/create-product', (req, res)=>{
     const product = store.find(product => product.name === req.params.name)
     if(product){
         res.json({message: `${product.name} already exists.`})
     }else{
         store.push({
-        name: request.body.name,
-        price: request.body.price
+        name: req.body.name,
+        price: req.body.price
         })
     res.json({message: "Product added"})
     }
@@ -62,4 +62,8 @@ app.delete('/delete-product', (req, res)=>{
     }else{
         return res.json({message: "Product not found"})
     }
+})
+
+app.listen(3000, ()=>{
+    console.log('Server Started on port 3000.')
 })
